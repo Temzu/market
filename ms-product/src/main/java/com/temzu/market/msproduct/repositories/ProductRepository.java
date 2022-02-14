@@ -1,0 +1,10 @@
+package com.temzu.market.msproduct.repositories;
+
+import com.temzu.market.msproduct.models.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+}
