@@ -1,10 +1,10 @@
-package com.temzu.market.msproduct.dao.impl;
+package com.temzu.market.msproduct.dao.services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.temzu.market.corelib.exceptions.EntityBadIdException;
 import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
-import com.temzu.market.msproduct.dao.ProductDao;
+import com.temzu.market.msproduct.dao.services.ProductDao;
 import com.temzu.market.msproduct.models.Product;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;

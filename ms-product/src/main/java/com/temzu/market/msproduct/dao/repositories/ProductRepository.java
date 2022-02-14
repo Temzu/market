@@ -1,4 +1,4 @@
-package com.temzu.market.msproduct.repositories;
+package com.temzu.market.msproduct.dao.repositories;
 
 import com.temzu.market.msproduct.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

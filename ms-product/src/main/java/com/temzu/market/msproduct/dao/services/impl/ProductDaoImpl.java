@@ -1,11 +1,10 @@
-package com.temzu.market.msproduct.dao.impl;
+package com.temzu.market.msproduct.dao.services.impl;
 
-import com.temzu.market.corelib.exceptions.EntityBadIdException;
 import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
 import com.temzu.market.corelib.validators.EntityIdValidator;
-import com.temzu.market.msproduct.dao.ProductDao;
+import com.temzu.market.msproduct.dao.services.ProductDao;
+import com.temzu.market.msproduct.dao.repositories.ProductRepository;
 import com.temzu.market.msproduct.models.Product;
-import com.temzu.market.msproduct.repositories.ProductRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +19,7 @@ public class ProductDaoImpl implements ProductDao {
   private final ProductRepository productRepository;
 
   @Override
-  public Page<Product> getAll(@NonNull Specification<Product> spec, int page, int pageSize) {
+  public Page<Product> findPage(@NonNull Specification<Product> spec, int page, int pageSize) {
     return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize));
   }
 
@@ -40,7 +39,6 @@ public class ProductDaoImpl implements ProductDao {
   @Override
   public Product add(@NonNull Product product) {
     EntityIdValidator.mustBeNull(Product.class, product.getId());
-
     return productRepository.save(product);
   }
 }
