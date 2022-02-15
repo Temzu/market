@@ -61,7 +61,7 @@ class ProductDaoImplTest {
   }
 
   @Order(4)
-  @CsvSource(value = {"1", "5", "-1", "100"})
+  @CsvSource(value = {"1", "0", "-1", "100"})
   @ParameterizedTest
   void add_WRONG(Long id) {
     Product product = new Product();
