@@ -8,42 +8,26 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.5.6</version>
-    <relativePath/>
   </parent>
 
-  <groupId>com.temzu</groupId>
-  <artifactId>market</artifactId>
-  <version>0.0.1</version>
-  <name>market</name>
-  <description>market</description>
+  <groupId>com.temzu.market</groupId>
+  <artifactId>gateway-server</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>gateway-server</name>
 
   <properties>
     <java.version>11</java.version>
-    <spring-cloud.version>2020.0.4</spring-cloud.version>
+    <spring-cloud.version>2021.0.0</spring-cloud.version>
   </properties>
-
-  <packaging>pom</packaging>
-
-  <modules>
-    <module>eureka-server</module>
-    <module>core-lib</module>
-    <module>ms-product</module>
-<!--    <module>ms-auth</module>-->
-<!--    <module>routing-lib</module>-->
-<!--    <module>front-server</module>-->
-    <module>gateway-server</module>
-  </modules>
 
   <dependencies>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-gateway</artifactId>
     </dependency>
-
     <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <optional>true</optional>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
     </dependency>
 
     <dependency>
@@ -51,16 +35,7 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>4.4.0</version>
-      <scope>test</scope>
-    </dependency>
-
   </dependencies>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -78,15 +53,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>2.5.6</version>
-        <configuration>
-          <excludes>
-            <exclude>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-            </exclude>
-          </excludes>
-        </configuration>
       </plugin>
     </plugins>
   </build>

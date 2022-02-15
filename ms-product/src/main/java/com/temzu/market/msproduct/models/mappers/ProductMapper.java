@@ -1,7 +1,7 @@
 package com.temzu.market.msproduct.models.mappers;
 
 import com.temzu.market.msproduct.models.Product;
-import com.temzu.market.msproduct.models.ProductDto;
+import com.temzu.market.routinglib.dtos.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
