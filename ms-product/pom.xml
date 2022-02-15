@@ -21,6 +21,12 @@
 
   <dependencies>
 
+    <dependency>
+      <groupId>com.temzu.market</groupId>
+      <artifactId>core-lib</artifactId>
+      <version>0.0.1-core-lib</version>
+    </dependency>
+
   </dependencies>
 
 

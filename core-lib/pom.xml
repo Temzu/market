@@ -12,7 +12,7 @@
 
   <groupId>com.temzu.market</groupId>
   <artifactId>core-lib</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1-core-lib</version>
   <name>core-lib</name>
 
   <properties>
