@@ -1,6 +1,6 @@
 package com.temzu.market.msproduct.services;
 
-import com.temzu.market.msproduct.models.ProductDto;
+import com.temzu.market.routinglib.dtos.ProductDto;
 import org.springframework.data.domain.Page;
 import org.springframework.util.MultiValueMap;
 

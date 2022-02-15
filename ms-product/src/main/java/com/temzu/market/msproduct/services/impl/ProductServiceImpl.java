@@ -3,7 +3,7 @@ package com.temzu.market.msproduct.services.impl;
 import com.temzu.market.msproduct.dao.services.ProductDao;
 import com.temzu.market.msproduct.dao.repositories.specification.ProductSpecifications;
 import com.temzu.market.msproduct.models.Product;
-import com.temzu.market.msproduct.models.ProductDto;
+import com.temzu.market.routinglib.dtos.ProductDto;
 import com.temzu.market.msproduct.models.mappers.ProductMapper;
 import com.temzu.market.msproduct.services.ProductService;
 import lombok.RequiredArgsConstructor;

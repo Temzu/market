@@ -11,9 +11,9 @@
   </parent>
 
   <groupId>com.temzu.market</groupId>
-  <artifactId>ms-product</artifactId>
+  <artifactId>routing-lib</artifactId>
   <version>0.0.1</version>
-  <name>ms-product</name>
+  <name>routing-lib</name>
 
   <properties>
     <java.version>11</java.version>
@@ -22,18 +22,10 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.temzu.market</groupId>
-      <artifactId>core-lib</artifactId>
-      <version>0.0.1-core-lib</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.temzu.market</groupId>
-      <artifactId>routing-lib</artifactId>
-      <version>0.0.1</version>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
 
   </dependencies>
-
 
 </project>

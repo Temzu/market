@@ -1,4 +1,4 @@
-package com.temzu.market.msproduct.models;
+package com.temzu.market.routinglib.dtos;
 
 import java.math.BigDecimal;
 import lombok.Data;

@@ -2,7 +2,7 @@ package com.temzu.market.msproduct.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.temzu.market.msproduct.models.ProductDto;
+import com.temzu.market.routinglib.dtos.ProductDto;
 import com.temzu.market.msproduct.services.ProductService;
 import java.util.HashMap;
 import org.junit.jupiter.api.Order;

@@ -1,6 +1,6 @@
 package com.temzu.market.msproduct.controllers;
 
-import com.temzu.market.msproduct.models.ProductDto;
+import com.temzu.market.routinglib.dtos.ProductDto;
 import com.temzu.market.msproduct.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
