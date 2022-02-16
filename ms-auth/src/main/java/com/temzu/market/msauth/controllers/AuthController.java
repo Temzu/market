@@ -25,7 +25,6 @@ public class AuthController {
 
   @PostMapping("/login")
   public AuthResponseDto login(@RequestBody AuthRequestDto request) {
-    System.out.println("login");
     return authService.login(request);
   }
 
