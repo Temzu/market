@@ -1,6 +1,6 @@
 package com.temzu.market.msproduct.dao.repositories;
 
-import com.temzu.market.msproduct.models.Product;
+import com.temzu.market.msproduct.dao.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

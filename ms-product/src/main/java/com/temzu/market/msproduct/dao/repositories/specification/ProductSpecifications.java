@@ -1,6 +1,6 @@
 package com.temzu.market.msproduct.dao.repositories.specification;
 
-import com.temzu.market.msproduct.models.Product;
+import com.temzu.market.msproduct.dao.entities.Product;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.MultiValueMap;
 

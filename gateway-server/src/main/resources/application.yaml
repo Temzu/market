@@ -21,10 +21,15 @@ spring:
           lower-case-service-id: true
       routes:
 #        # http://localhost:5555/api/v1/auth/login
-#        - id: MS-AUTH
-#          uri: lb://ms-auth
-#          predicates:
-#            - Path=/api/*/auth/**
+        - id: MS-AUTH
+          uri: lb://ms-auth
+          predicates:
+            - Path=/api/*/auth/**
+
+        - id: MS-ORDER
+          uri: lb://ms-order
+          predicates:
+            - Path=/api/*/orders/**
 
           # http://localhost:5555/api/v1/products/{id}
         - id: MS-PRODUCT

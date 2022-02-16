@@ -4,7 +4,7 @@ import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
 import com.temzu.market.corelib.validators.EntityIdValidator;
 import com.temzu.market.msproduct.dao.services.ProductDao;
 import com.temzu.market.msproduct.dao.repositories.ProductRepository;
-import com.temzu.market.msproduct.models.Product;
+import com.temzu.market.msproduct.dao.entities.Product;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

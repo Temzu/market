@@ -4,12 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.temzu.market.corelib.exceptions.EntityBadIdException;
 import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
-import com.temzu.market.msproduct.dao.repositories.specification.ProductSpecifications;
 import com.temzu.market.msproduct.dao.services.ProductDao;
-import com.temzu.market.msproduct.models.Product;
+import com.temzu.market.msproduct.dao.entities.Product;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -22,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.util.MultiValueMap;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)

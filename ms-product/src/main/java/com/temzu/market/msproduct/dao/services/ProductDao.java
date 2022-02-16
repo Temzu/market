@@ -1,6 +1,6 @@
 package com.temzu.market.msproduct.dao.services;
 
-import com.temzu.market.msproduct.models.Product;
+import com.temzu.market.msproduct.dao.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 
