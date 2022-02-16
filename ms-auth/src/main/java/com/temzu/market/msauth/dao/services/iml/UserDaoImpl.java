@@ -2,6 +2,7 @@ package com.temzu.market.msauth.dao.services.iml;
 
 import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
 import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
+import com.temzu.market.corelib.exceptions.UserWrongLoginException;
 import com.temzu.market.corelib.exceptions.UserWrongPasswordException;
 import com.temzu.market.msauth.dao.entites.Role;
 import com.temzu.market.msauth.dao.entites.User;
@@ -24,8 +25,12 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public User save(User user) {
-    if (userRepository.existsByLogin(user.getLogin())) {
-      throw ResourceAlreadyExistsException.byLogin(user.getLogin(), User.class);
+    String login = user.getLogin();
+    if (login.isBlank() || login.contains(" ")) {
+      throw new UserWrongLoginException(login);
+    }
+    if (userRepository.existsByLogin(login)) {
+      throw ResourceAlreadyExistsException.byLogin(login, User.class);
     }
 
     Role role = roleDao.findByName(UserRoles.ROLE_USER.name());
