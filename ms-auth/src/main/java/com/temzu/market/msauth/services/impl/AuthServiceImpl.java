@@ -21,20 +21,27 @@ public class AuthServiceImpl implements AuthService {
   private final UserMapper userMapper;
 
   @Override
-  public void signUp(SignUpRequestDto signUpRequestDto) {
-    userDao.save(userMapper.toUser(signUpRequestDto));
+  public AuthResponseDto signUp(SignUpRequestDto signUpRequestDto) {
+    User user = userDao.save(userMapper.toUser(signUpRequestDto));
+
+    String token = returnToken(user);
+    return new AuthResponseDto(token);
   }
 
   @Override
   public AuthResponseDto login(AuthRequestDto request) {
     User user = userDao.findByLoginAndPassword(request.getLogin(), request.getPassword());
 
+    String token = returnToken(user);
+    return new AuthResponseDto(token);
+  }
+
+  private String returnToken(User user) {
     UserInfo userInfo = UserInfo.builder()
         .userId(user.getId())
         .userEmail(user.getLogin())
         .role(user.getRole().getName())
         .build();
-    String token = tokenService.generateToken(userInfo);
-    return new AuthResponseDto(token);
+    return tokenService.generateToken(userInfo);
   }
 }

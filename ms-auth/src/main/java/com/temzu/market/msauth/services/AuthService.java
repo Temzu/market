@@ -6,7 +6,7 @@ import com.temzu.market.routinglib.dtos.SignUpRequestDto;
 
 public interface AuthService {
 
-  void signUp(SignUpRequestDto signUpRequestDto);
+  AuthResponseDto signUp(SignUpRequestDto signUpRequestDto);
 
   AuthResponseDto login(AuthRequestDto authRequestDto);
 }

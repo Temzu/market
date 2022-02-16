@@ -51,7 +51,7 @@ class AuthControllerTest {
         .when()
         .post("/api/v1/auth/signup")
         .then()
-        .body(containsString("OK"));
+        .body(containsString("Bearer "));
   }
 
   @Order(2)
@@ -64,6 +64,7 @@ class AuthControllerTest {
         .when()
         .post("/api/v1/auth/login")
         .then()
+        .body(containsString("Bearer "))
         .extract().response();
 
     assertFalse(response.jsonPath().getString("token").isBlank());
