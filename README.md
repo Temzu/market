@@ -1,7 +1,7 @@
 ## Project: Market
 ### Goals:
 - Using the microservice architecture
-- Сreate microservices: product, order, authorization
+- Сreate microservices: product, order, authentification
 - Using Spring Cloud
 - Storing JWT in Redis
 - Make simple frontend on Angular
