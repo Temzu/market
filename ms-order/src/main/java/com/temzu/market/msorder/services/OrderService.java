@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 
 public interface OrderService {
 
-  Page<OrderDto> findPageByUserId(String token, int page, int pageSize);
+  Page<OrderDto> findPageByCurrentUserToken(String token, int page, int pageSize);
 
   OrderDto createFromCart(String token, CreateOrderDto createOrderDto);
 }

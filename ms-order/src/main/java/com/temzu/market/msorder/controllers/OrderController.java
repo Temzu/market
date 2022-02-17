@@ -24,6 +24,10 @@ public class OrderController {
       @RequestParam(name = "page", defaultValue = "1") Integer page,
       @RequestParam(name = "size", defaultValue = "10") Integer pageSize
   ) {
-    return orderService.findPageByUserId(token, page, pageSize);
+    if (page < 1 || pageSize < 1) {
+      page = 1;
+      pageSize = 10;
+    }
+    return orderService.findPageByCurrentUserToken(token, page, pageSize);
   }
 }

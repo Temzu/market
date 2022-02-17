@@ -40,3 +40,11 @@ create table cart_items
     created_at        timestamp default current_timestamp,
     updated_at        timestamp default current_timestamp
 );
+
+insert into orders (user_id, address, price)
+values (1, 'user 1 address', 24),
+       (2, 'user 2 address', 65),
+       (3, 'user 3 address', 320),
+       (4, 'user 4 address', 322),
+       (1, 'user 1 address', 323),
+       (2, 'user 2 address', 324);

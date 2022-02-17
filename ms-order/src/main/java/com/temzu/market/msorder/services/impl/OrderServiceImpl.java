@@ -19,7 +19,7 @@ public class OrderServiceImpl implements OrderService {
   private final OrderDao orderDao;
 
   @Override
-  public Page<OrderDto> findPageByUserId(String token, int page, int pageSize) {
+  public Page<OrderDto> findPageByCurrentUserToken(String token, int page, int pageSize) {
     Long userId = tokenService.getUserId(token);
     return orderDao
         .findPageByUserId(userId, page, pageSize)
