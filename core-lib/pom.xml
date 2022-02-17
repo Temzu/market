@@ -18,7 +18,7 @@
   <properties>
     <java.version>11</java.version>
     <io.jwt.version>0.9.1</io.jwt.version>
-    <modelmapper.version>3.0.0</modelmapper.version>
+    <modelmapper.version>2.4.4</modelmapper.version>
   </properties>
 
   <dependencies>

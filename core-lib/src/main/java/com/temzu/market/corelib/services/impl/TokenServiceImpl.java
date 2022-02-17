@@ -66,7 +66,7 @@ public class TokenServiceImpl implements TokenService {
   public Long getUserId(String token) {
     return Jwts.parser()
         .setSigningKey(JWT_SECRET)
-        .parseClaimsJws(token)
+        .parseClaimsJws(token.replace("Bearer ", ""))
         .getBody().get(USERID_CLAIM, Long.class);
   }
 }

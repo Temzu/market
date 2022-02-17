@@ -1,9 +1,9 @@
 create table orders
 (
     id         bigserial primary key,
-    user_id    bigint,
-    price      int,
-    address    varchar(255),
+    user_id    bigint NOT NULL,
+    price      int NOT NULL,
+    address    varchar(255) NOT NULL,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
 );
@@ -48,3 +48,11 @@ values (1, 'user 1 address', 24),
        (4, 'user 4 address', 322),
        (1, 'user 1 address', 323),
        (2, 'user 2 address', 324);
+
+-- insert into order_items (user_id, address, price)
+-- values (1, 'user 1 address', 24),
+--        (2, 'user 2 address', 65),
+--        (3, 'user 3 address', 320),
+--        (4, 'user 4 address', 322),
+--        (1, 'user 1 address', 323),
+--        (2, 'user 2 address', 324);
