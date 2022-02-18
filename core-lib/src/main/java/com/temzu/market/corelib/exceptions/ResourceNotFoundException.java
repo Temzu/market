@@ -1,6 +1,7 @@
 package com.temzu.market.corelib.exceptions;
 
 import com.temzu.market.corelib.enums.ExceptionTypes;
+import java.util.UUID;
 
 public class ResourceNotFoundException extends RuntimeException {
 
@@ -24,6 +25,10 @@ public class ResourceNotFoundException extends RuntimeException {
 
   public static ResourceNotFoundException byLogin(String login, Class<?> entityClass) {
     return new ResourceNotFoundException(entityClass, ExceptionTypes.LOGIN, login);
+  }
+
+  public static ResourceNotFoundException byUuid(UUID uuid, Class<?> entityClass) {
+    return new ResourceNotFoundException(entityClass, ExceptionTypes.UUID, uuid.toString());
   }
 
 }

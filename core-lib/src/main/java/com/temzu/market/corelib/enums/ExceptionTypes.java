@@ -4,7 +4,8 @@ public enum ExceptionTypes {
   ID("ID"),
   LOGIN("LOGIN"),
   NAME("NAME"),
-  TITLE("TITLE");
+  TITLE("TITLE"),
+  UUID("UUID");
 
   private final String type;
 
