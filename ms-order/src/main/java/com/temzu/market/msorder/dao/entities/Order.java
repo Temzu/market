@@ -2,6 +2,7 @@ package com.temzu.market.msorder.dao.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,5 +52,17 @@ public class Order {
   @Column(name = "updated_at")
   @UpdateTimestamp
   private LocalDateTime updatedAt;
+
+  public Order(Cart cart, Long userId, String address) {
+    this.items = new ArrayList<>();
+    this.userId = userId;
+    this.address = address;
+    this.price = cart.getPrice();
+    cart.getItems().forEach(ci -> {
+      OrderItem oi = new OrderItem(ci);
+      oi.setOrder(this);
+      this.items.add(oi);
+    });
+  }
 
 }

@@ -1,4 +1,4 @@
-package com.temzu.market.msorder.dao.repositoriies;
+package com.temzu.market.msorder.dao.repositories;
 
 import com.temzu.market.msorder.dao.entities.Order;
 import org.springframework.data.domain.Page;
