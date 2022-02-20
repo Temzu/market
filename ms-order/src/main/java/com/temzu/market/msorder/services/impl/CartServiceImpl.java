@@ -37,44 +37,16 @@ public class CartServiceImpl implements CartService {
   @Override
   public UUID createCartForUser(String token) {
     Long userId = tokenService.getUserId(token);
-
-    Cart cart = cartDao.findByUserId(userId).orElse(null);
-
-    if (cart != null) {
-      throw ResourceAlreadyExistsException.byUuid(cart.getId(), Cart.class);
-    }
-
     Cart newCart = new Cart();
-    newCart.setUserId(userId);
-    cartDao.save(newCart);
-
-    return newCart.getId();
-  }
-
-  @Override
-  public UUID findCartForUser(String token, UUID cartUuid) {
-    Long userId = tokenService.getUserId(token);
-    if (userId == null) {
-      Cart cart = cartDao.save(new Cart());
-      return cart.getId();
-    }
-
-    if (cartUuid != null) {
-      Cart cart = cartDao.findCartByUuid(cartUuid);
-      cartDao.findByUserId(userId).ifPresent(oldCart -> {
-        cart.merge(oldCart);
-        cartDao.delete(oldCart);
-      });
-      cart.setUserId(userId);
-    }
-
-    Optional<Cart> cart = cartDao.findByUserId(userId);
-    if (cart.isPresent()) {
-      return cart.get().getId();
-    }
-    Cart newCart = new Cart();
-    newCart.setUserId(userId);
-    cartDao.save(newCart);
+    cartDao.findByUserId(userId).ifPresentOrElse(
+        cart -> {
+          throw ResourceAlreadyExistsException.byUuid(cart.getId(), Cart.class);
+        },
+        () -> {
+          newCart.setUserId(userId);
+          cartDao.save(newCart);
+        }
+    );
     return newCart.getId();
   }
 
