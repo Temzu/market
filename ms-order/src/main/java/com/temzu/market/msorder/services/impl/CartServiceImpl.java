@@ -1,5 +1,6 @@
 package com.temzu.market.msorder.services.impl;
 
+import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
 import com.temzu.market.corelib.services.TokenService;
 import com.temzu.market.msorder.dao.entities.Cart;
 import com.temzu.market.msorder.dao.entities.CartItem;
@@ -31,6 +32,23 @@ public class CartServiceImpl implements CartService {
   @Override
   public CartDto findCartByUuid(UUID cartUuid) {
     return cartMapper.toCartDto(cartDao.findCartByUuid(cartUuid));
+  }
+
+  @Override
+  public UUID createCartForUser(String token) {
+    Long userId = tokenService.getUserId(token);
+
+    Cart cart = cartDao.findByUserId(userId).orElse(null);
+
+    if (cart != null) {
+      throw ResourceAlreadyExistsException.byUuid(cart.getId(), Cart.class);
+    }
+
+    Cart newCart = new Cart();
+    newCart.setUserId(userId);
+    cartDao.save(newCart);
+
+    return newCart.getId();
   }
 
   @Override

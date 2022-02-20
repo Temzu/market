@@ -9,6 +9,8 @@ public interface CartService {
 
   UUID findCartForUser(String token, UUID cartUuid);
 
+  UUID createCartForUser(String token);
+
   void addToCart(UUID cartUuid, Long productId);
 
   void clearCart(UUID cartUuid);
