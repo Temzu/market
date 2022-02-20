@@ -1,6 +1,7 @@
 package com.temzu.market.corelib.exceptions;
 
 import com.temzu.market.corelib.enums.ExceptionTypes;
+import java.util.UUID;
 
 public class ResourceAlreadyExistsException extends RuntimeException {
 
@@ -12,5 +13,9 @@ public class ResourceAlreadyExistsException extends RuntimeException {
 
   public static ResourceAlreadyExistsException byLogin(String login, Class<?> entityClass) {
     return new ResourceAlreadyExistsException(entityClass, ExceptionTypes.LOGIN, login);
+  }
+
+  public static ResourceAlreadyExistsException byUuid(UUID uuid, Class<?> entityClass) {
+    return new ResourceAlreadyExistsException(entityClass, ExceptionTypes.UUID, uuid.toString());
   }
 }

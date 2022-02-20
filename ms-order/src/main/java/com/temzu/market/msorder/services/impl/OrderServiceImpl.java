@@ -1,9 +1,14 @@
 package com.temzu.market.msorder.services.impl;
 
 import com.temzu.market.corelib.services.TokenService;
+import com.temzu.market.msorder.dao.entities.Cart;
+import com.temzu.market.msorder.dao.entities.Order;
+import com.temzu.market.msorder.dao.services.CartDao;
 import com.temzu.market.msorder.dao.services.OrderDao;
 import com.temzu.market.msorder.mappers.OrderMapper;
+import com.temzu.market.msorder.services.CartService;
 import com.temzu.market.msorder.services.OrderService;
+import com.temzu.market.routinglib.dtos.CartDto;
 import com.temzu.market.routinglib.dtos.CreateOrderDto;
 import com.temzu.market.routinglib.dtos.OrderDto;
 import javax.transaction.Transactional;
@@ -16,8 +21,12 @@ import org.springframework.stereotype.Service;
 public class OrderServiceImpl implements OrderService {
 
   private final TokenService tokenService;
-  private final OrderMapper orderMapper;
+
+  private final CartDao cartDao;
+
   private final OrderDao orderDao;
+
+  private final OrderMapper orderMapper;
 
   @Override
   @Transactional
@@ -31,7 +40,10 @@ public class OrderServiceImpl implements OrderService {
   @Override
   @Transactional
   public OrderDto createFromCart(String token, CreateOrderDto createOrderDto) {
-    return null;
+    Long userId = tokenService.getUserId(token);
+    Cart cart = cartDao.findCartByUuid(createOrderDto.getCartUuid());
+    Order order = new Order(cart, userId, createOrderDto.getAddress());
+    return orderMapper.toOrderDto(orderDao.save(order));
   }
 
 }

@@ -84,11 +84,15 @@ public class CartItem {
     if (this == o) {
       return true;
     }
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
     CartItem cartItem = (CartItem) o;
-    return id != null && Objects.equals(id, cartItem.id);
+    return productId == cartItem.productId && quantity == cartItem.quantity
+        && Objects.equals(id, cartItem.id) && Objects.equals(cart, cartItem.cart)
+        && Objects.equals(pricePerProduct, cartItem.pricePerProduct)
+        && Objects.equals(price, cartItem.price) && Objects.equals(createdAt,
+        cartItem.createdAt) && Objects.equals(updatedAt, cartItem.updatedAt);
   }
 
   @Override

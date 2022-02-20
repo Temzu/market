@@ -1,14 +1,19 @@
 package com.temzu.market.msorder.controllers;
 
 import com.temzu.market.msorder.services.OrderService;
+import com.temzu.market.routinglib.dtos.CreateOrderDto;
 import com.temzu.market.routinglib.dtos.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,5 +34,14 @@ public class OrderController {
       pageSize = 10;
     }
     return orderService.findPageByCurrentUserToken(token, page, pageSize);
+  }
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public OrderDto createOrderFromCart(
+      @RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+      @RequestBody CreateOrderDto createOrderDto
+  ) {
+    return orderService.createFromCart(token, createOrderDto);
   }
 }
