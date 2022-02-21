@@ -49,15 +49,22 @@ class CartDaoImplTest {
     });
   }
 
-  @Test
+  @Order(1)
+  @CsvSource(value = {"0", "1", "2"})
+  @ParameterizedTest
   void save() {
   }
 
-  @Test
-  void delete() {
+  @Order(3)
+  @CsvSource(value = {"0", "1", "2"})
+  @ParameterizedTest
+  void delete(int index) {
+    assertDoesNotThrow(() -> cartDao.delete(cartDao.findCartByUuid(cartUuids[index])));
   }
 
-  @Test
+  @Order(1)
+  @CsvSource(value = {"0", "1", "2"})
+  @ParameterizedTest
   void findByUserId() {
   }
 }
