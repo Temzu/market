@@ -49,10 +49,8 @@ values (1, 'user 1 address', 24),
        (1, 'user 1 address', 323),
        (2, 'user 2 address', 324);
 
--- insert into order_items (user_id, address, price)
--- values (1, 'user 1 address', 24),
---        (2, 'user 2 address', 65),
---        (3, 'user 3 address', 320),
---        (4, 'user 4 address', 322),
---        (1, 'user 1 address', 323),
---        (2, 'user 2 address', 324);
+-- insert into carts (user_id, price)
+-- values (1, 24),
+--        (2, 65),
+--        (3, 320),
+--        (4, 322);
