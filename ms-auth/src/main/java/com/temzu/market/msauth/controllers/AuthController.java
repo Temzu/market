@@ -4,6 +4,7 @@ import com.temzu.market.msauth.services.AuthService;
 import com.temzu.market.routinglib.dtos.AuthRequestDto;
 import com.temzu.market.routinglib.dtos.AuthResponseDto;
 import com.temzu.market.routinglib.dtos.SignUpRequestDto;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +19,12 @@ public class AuthController {
   private final AuthService authService;
 
   @PostMapping("/signup")
-  public AuthResponseDto signUp(@RequestBody SignUpRequestDto signUpRequest) {
+  public AuthResponseDto signUp(@Valid @RequestBody SignUpRequestDto signUpRequest) {
     return authService.signUp(signUpRequest);
   }
 
   @PostMapping("/login")
-  public AuthResponseDto login(@RequestBody AuthRequestDto request) {
+  public AuthResponseDto login(@Valid @RequestBody AuthRequestDto request) {
     return authService.login(request);
   }
-
 }
