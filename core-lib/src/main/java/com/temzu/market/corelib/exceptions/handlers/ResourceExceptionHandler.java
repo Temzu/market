@@ -1,9 +1,9 @@
 package com.temzu.market.corelib.exceptions.handlers;
 
-import com.temzu.monomarket.exceptions.MarketError;
-import com.temzu.monomarket.exceptions.ResourceAlreadyExistsException;
-import com.temzu.monomarket.exceptions.ResourceException;
-import com.temzu.monomarket.exceptions.ResourceNotFoundException;
+import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
+import com.temzu.market.corelib.exceptions.ResourceException;
+import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
+import com.temzu.market.corelib.models.MarketError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

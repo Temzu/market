@@ -1,5 +1,6 @@
 package com.temzu.market.corelib.services.impl;
 
+import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
 import com.temzu.market.corelib.services.RedisService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

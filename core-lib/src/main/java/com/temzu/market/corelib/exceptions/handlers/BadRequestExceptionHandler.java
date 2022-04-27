@@ -1,7 +1,7 @@
 package com.temzu.market.corelib.exceptions.handlers;
 
-import com.temzu.monomarket.exceptions.MarketError;
-import com.temzu.monomarket.exceptions.UserLoginOrPasswordException;
+import com.temzu.market.corelib.exceptions.UserLoginOrPasswordException;
+import com.temzu.market.corelib.models.MarketError;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
