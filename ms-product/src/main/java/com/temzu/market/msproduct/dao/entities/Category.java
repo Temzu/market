@@ -1,14 +1,13 @@
 package com.temzu.market.msproduct.dao.entities;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +17,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "categories")
+public class Category {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +28,8 @@ public class Product {
   @Column(name = "title")
   private String title;
 
-  @Column(name = "price")
-  private BigDecimal price;
-
-  @ManyToOne
-  @JoinColumn(name = "category_id")
-  private Category category;
+  @OneToMany(mappedBy = "category")
+  private List<Product> products;
 
   @Column(name = "createdAt")
   @CreationTimestamp
@@ -43,5 +38,4 @@ public class Product {
   @Column(name = "updatedAt")
   @UpdateTimestamp
   private LocalDateTime updatedAt;
-
 }

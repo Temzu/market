@@ -1,13 +1,19 @@
 package com.temzu.market.routinglib.dtos;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 public class AuthRequestDto {
 
-  @NonNull
+  @NotBlank(message = "Login must not be blank and not be null")
+  @Size(min = 4, max = 30, message = "Login length must be between 4-30")
+  @Pattern(regexp="^[A-Za-z\\d]*$", message = "Login contains invalid characters")
   private String login;
-  @NonNull
+
+  @NotBlank(message = "Password must not be blank and not be null")
+  @Size(min = 6, max = 80, message = "Password length must be between 6-80")
   private String password;
 }

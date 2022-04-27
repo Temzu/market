@@ -1,9 +1,5 @@
 package com.temzu.market.msauth.dao.services.iml;
 
-import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
-import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
-import com.temzu.market.corelib.exceptions.UserWrongLoginException;
-import com.temzu.market.corelib.exceptions.UserWrongPasswordException;
 import com.temzu.market.msauth.dao.entites.Role;
 import com.temzu.market.msauth.dao.entites.User;
 import com.temzu.market.msauth.dao.repositories.UserRepository;

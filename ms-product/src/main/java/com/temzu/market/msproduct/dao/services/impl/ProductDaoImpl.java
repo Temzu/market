@@ -1,7 +1,6 @@
 package com.temzu.market.msproduct.dao.services.impl;
 
 import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
-import com.temzu.market.corelib.validators.EntityIdValidator;
 import com.temzu.market.msproduct.dao.services.ProductDao;
 import com.temzu.market.msproduct.dao.repositories.ProductRepository;
 import com.temzu.market.msproduct.dao.entities.Product;
@@ -24,21 +23,24 @@ public class ProductDaoImpl implements ProductDao {
   }
 
   @Override
-  public Product findById(@NonNull Long id) {
-    EntityIdValidator.mustBeGreaterThanZero(Product.class, id);
-    return productRepository.findById(id)
+  public Product findById(Long id) {
+    return productRepository
+        .findById(id)
         .orElseThrow(() -> ResourceNotFoundException.byId(id, Product.class));
   }
 
   @Override
-  public void deleteById(@NonNull Long id) {
-    EntityIdValidator.mustBeGreaterThanZero(Product.class, id);
-    productRepository.delete(findById(id));
+  public boolean existById(Long id) {
+    return productRepository.existsById(id);
   }
 
   @Override
-  public Product add(@NonNull Product product) {
-    EntityIdValidator.mustBeNull(Product.class, product.getId());
+  public Product saveOrUpdate(Product product) {
     return productRepository.save(product);
+  }
+
+  @Override
+  public void deleteById(Long id) {
+    productRepository.delete(findById(id));
   }
 }

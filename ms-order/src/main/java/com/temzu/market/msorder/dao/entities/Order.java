@@ -2,7 +2,6 @@ package com.temzu.market.msorder.dao.entities;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,17 +10,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString.Exclude;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-@RequiredArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -42,6 +44,9 @@ public class Order {
   @Column(name = "address")
   private String address;
 
+  @Column(name = "phone")
+  private String phone;
+
   @Column(name = "price")
   private BigDecimal price;
 
@@ -52,17 +57,5 @@ public class Order {
   @Column(name = "updated_at")
   @UpdateTimestamp
   private LocalDateTime updatedAt;
-
-  public Order(Cart cart, Long userId, String address) {
-    this.items = new ArrayList<>();
-    this.userId = userId;
-    this.address = address;
-    this.price = cart.getPrice();
-    cart.getItems().forEach(ci -> {
-      OrderItem oi = new OrderItem(ci);
-      oi.setOrder(this);
-      this.items.add(oi);
-    });
-  }
 
 }

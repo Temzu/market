@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 
 public interface OrderDao {
 
-  Page<Order> findPageByUserId(Long userId, int page, int pageSize);
+  Page<Order> findPageByUserId(Long id, int page, int pageSize);
 
   Order save(Order order);
 }

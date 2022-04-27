@@ -3,7 +3,7 @@ package com.temzu.market.corelib.exceptions;
 import com.temzu.market.corelib.enums.ExceptionTypes;
 import java.util.UUID;
 
-public class ResourceAlreadyExistsException extends RuntimeException {
+public class ResourceAlreadyExistsException extends ResourceException {
 
   private static final String ALREADY_EXISTS_BY = "%s already exists with [%s]: %s";
 
@@ -17,5 +17,9 @@ public class ResourceAlreadyExistsException extends RuntimeException {
 
   public static ResourceAlreadyExistsException byUuid(UUID uuid, Class<?> entityClass) {
     return new ResourceAlreadyExistsException(entityClass, ExceptionTypes.UUID, uuid.toString());
+  }
+
+  public static ResourceAlreadyExistsException byEmail(String email, Class<?> entityClass) {
+    return new ResourceAlreadyExistsException(entityClass, ExceptionTypes.EMAIL, email);
   }
 }

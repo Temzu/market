@@ -1,73 +1,62 @@
 package com.temzu.market.msorder.services.impl;
 
-import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
-import com.temzu.market.corelib.services.TokenService;
-import com.temzu.market.msorder.dao.entities.Cart;
-import com.temzu.market.msorder.dao.entities.CartItem;
-import com.temzu.market.msorder.dao.services.CartDao;
-import com.temzu.market.msorder.mappers.CartMapper;
+import com.temzu.market.corelib.services.RedisService;
 import com.temzu.market.msorder.services.CartService;
+import com.temzu.market.msorder.util.Cart;
 import com.temzu.market.routinglib.clients.ProductClient;
-import com.temzu.market.routinglib.dtos.CartDto;
-import com.temzu.market.routinglib.dtos.ProductDto;
-import java.util.Optional;
 import java.util.UUID;
-import javax.transaction.Transactional;
+import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class CartServiceImpl implements CartService {
-
-  private final TokenService tokenService;
-
-  private final CartDao cartDao;
-
-  private final CartMapper cartMapper;
 
   private final ProductClient productClient;
 
+  private final RedisService<Cart> redisService;
+
   @Override
-  public CartDto findCartByUuid(UUID cartUuid) {
-    return cartMapper.toCartDto(cartDao.findCartByUuid(cartUuid));
+  public String generateCartUuid() {
+    return UUID.randomUUID().toString();
   }
 
   @Override
-  public UUID createCartForUser(String token) {
-    Long userId = tokenService.getUserId(token);
-    Cart newCart = new Cart();
-    cartDao.findByUserId(userId).ifPresentOrElse(
-        cart -> {
-          throw ResourceAlreadyExistsException.byUuid(cart.getId(), Cart.class);
-        },
-        () -> {
-          newCart.setUserId(userId);
-          cartDao.save(newCart);
-        }
-    );
-    return newCart.getId();
-  }
-
-  @Override
-  public void addToCart(UUID cartUuid, Long productId) {
-    Cart cart = cartDao.findCartByUuid(cartUuid);
-    Optional.ofNullable(cart.getItemByProductId(productId))
-        .ifPresentOrElse(
-            ci -> {
-              ci.incrementQuantity();
-              cart.recalculate();
-            },
+  public Cart getCurrentCart(String cartKey) {
+    return redisService
+        .getOptional(cartKey)
+        .orElseGet(
             () -> {
-              ProductDto productDto = productClient.findProductById(productId);
-              cart.add(new CartItem(productDto));
-            }
-        );
+              redisService.set(cartKey, new Cart());
+              return redisService.get(cartKey);
+            });
   }
 
   @Override
-  public void clearCart(UUID cartUuid) {
-    cartDao.findCartByUuid(cartUuid).clear();
+  public void addToCart(String cartKey, Long productId) {
+    execute(
+        cartKey,
+        cart -> {
+          if (!cart.add(productId)) {
+            cart.add(productClient.findById(productId));
+          }
+        });
+  }
+
+  @Override
+  public void clearCart(String cartKey) {
+    execute(cartKey, Cart::clear);
+  }
+
+  @Override
+  public void decrementQuantity(String cartKey, Long productId) {
+    execute(cartKey, cart -> cart.changeQuantity(productId, -1));
+  }
+
+  private void execute(String cartKey, Consumer<Cart> action) {
+    Cart cart = getCurrentCart(cartKey);
+    action.accept(cart);
+    redisService.set(cartKey, cart);
   }
 }
