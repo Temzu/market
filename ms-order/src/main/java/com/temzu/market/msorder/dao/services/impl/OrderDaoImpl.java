@@ -15,8 +15,8 @@ public class OrderDaoImpl implements OrderDao {
   private final OrderRepository orderRepository;
 
   @Override
-  public Page<Order> findPageByUserId(Long userId, int page, int pageSize) {
-    return orderRepository.findAllByUserId(userId, PageRequest.of(page - 1, pageSize));
+  public Page<Order> findPageByUserId(Long id, int page, int pageSize) {
+    return orderRepository.findAllByUserId(id, PageRequest.of(page - 1, pageSize));
   }
 
   @Override

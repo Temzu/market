@@ -10,8 +10,10 @@ public interface ProductDao {
 
   Product findById(Long id);
 
-  void deleteById(Long id);
+  boolean existById(Long id);
 
-  Product add(Product product);
+  Product saveOrUpdate(Product product);
+
+  void deleteById(Long id);
 
 }

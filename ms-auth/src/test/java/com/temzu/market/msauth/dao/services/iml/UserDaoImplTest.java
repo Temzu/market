@@ -2,17 +2,10 @@ package com.temzu.market.msauth.dao.services.iml;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.temzu.market.corelib.exceptions.EntityBadIdException;
-import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
-import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
-import com.temzu.market.corelib.exceptions.UserWrongLoginException;
-import com.temzu.market.corelib.exceptions.UserWrongPasswordException;
 import com.temzu.market.msauth.dao.entites.User;
 import com.temzu.market.msauth.dao.services.UserDao;
-import org.apache.commons.math.stat.descriptive.summary.Product;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

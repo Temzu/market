@@ -2,16 +2,11 @@ package com.temzu.market.msauth.services.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
-import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
-import com.temzu.market.corelib.exceptions.UserWrongLoginException;
-import com.temzu.market.corelib.exceptions.UserWrongPasswordException;
 import com.temzu.market.msauth.services.AuthService;
 import com.temzu.market.routinglib.dtos.AuthRequestDto;
 import com.temzu.market.routinglib.dtos.SignUpRequestDto;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

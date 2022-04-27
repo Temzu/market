@@ -1,33 +1,37 @@
-create table role_table
+create table users
 (
-    id   bigserial   not null
-        constraint role_table_pk
-            primary key,
-    name varchar(20) not null
+    id         bigserial primary key,
+    login      varchar(30) unique not null,
+    password   varchar(80) not null,
+    email      varchar(50) unique not null,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 
-create table user_table
+create table roles
 (
-    id       bigserial not null
-        constraint user_table_pk
-            primary key,
-    login    varchar(50),
-    password varchar(500),
-    role_id  bigint
-        constraint user_table_role_table_id_fk
-            references role_table
+    id         bigserial primary key,
+    name       varchar(50) not null,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 
-create
-    unique index user_table_login_uindex
-    on user_table (login);
+CREATE TABLE users_roles
+(
+    user_id bigint not null references users (id),
+    role_id bigint not null references roles (id),
+    primary key (user_id, role_id)
+);
 
-insert into role_table(name)
-values ('ROLE_ADMIN'),
-       ('ROLE_USER');
+insert into roles (name)
+values ('ROLE_USER'),
+       ('ROLE_ADMIN');
 
--- пароль: 123
-INSERT INTO user_table (id, login, password, role_id)
-VALUES (1, 'ivan', '$2a$10$3ivPJN8MyXC/bb0y87FxzuYkzMByRuj555b4DfS3x7EtWM4tzX5u.', 2),
-       (2, 'petr', '$2a$10$3ivPJN8MyXC/bb0y87FxzuYkzMByRuj555b4DfS3x7EtWM4tzX5u.', 2),
-       (3, 'andrey', '$2a$10$3ivPJN8MyXC/bb0y87FxzuYkzMByRuj555b4DfS3x7EtWM4tzX5u.', 2);
+-- password: 123456
+insert into users (login, password, email)
+values ('user', '$2a$12$L/aHEr7LfXA6hFQzUI5o/O7ph1jj1gZXXmUwsu3LVkm7KM77WStne', 'bob_johnson@gmail.com'),
+       ('admin', '$2a$12$L/aHEr7LfXA6hFQzUI5o/O7ph1jj1gZXXmUwsu3LVkm7KM77WStne', 'john_johnson@gmail.com');
+
+insert into users_roles (user_id, role_id)
+values (1, 1),
+       (2, 2);

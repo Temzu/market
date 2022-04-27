@@ -16,12 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@NoArgsConstructor
 @Data
-@RequiredArgsConstructor
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -34,14 +33,14 @@ public class OrderItem {
   @Column(name = "product_id")
   private long productId;
 
-  @Column(name = "quantity")
-  private int quantity;
-
   @Column(name = "price_per_product")
   private BigDecimal pricePerProduct;
 
   @Column(name = "price")
   private BigDecimal price;
+
+  @Column(name = "quantity")
+  private int quantity;
 
   @CreationTimestamp
   @Column(name = "created_at")
@@ -50,12 +49,4 @@ public class OrderItem {
   @UpdateTimestamp
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
-
-  public OrderItem(CartItem cartItem) {
-    this.productId = cartItem.getProductId();
-    this.quantity = cartItem.getQuantity();
-    this.pricePerProduct = cartItem.getPricePerProduct();
-    this.price = cartItem.getPrice();
-  }
-
 }

@@ -2,11 +2,9 @@ package com.temzu.market.msauth.dao.services.iml;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
 import com.temzu.market.msauth.dao.entites.Role;
 import com.temzu.market.msauth.dao.services.RoleDao;
 import com.temzu.market.msauth.enums.UserRoles;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;

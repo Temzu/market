@@ -2,14 +2,14 @@ package com.temzu.market.msauth.dao.services.iml;
 
 import com.temzu.market.corelib.exceptions.ResourceAlreadyExistsException;
 import com.temzu.market.corelib.exceptions.ResourceNotFoundException;
-import com.temzu.market.corelib.exceptions.UserWrongLoginException;
-import com.temzu.market.corelib.exceptions.UserWrongPasswordException;
+import com.temzu.market.corelib.exceptions.UserLoginOrPasswordException;
 import com.temzu.market.msauth.dao.entites.Role;
 import com.temzu.market.msauth.dao.entites.User;
 import com.temzu.market.msauth.dao.repositories.UserRepository;
 import com.temzu.market.msauth.dao.services.RoleDao;
 import com.temzu.market.msauth.dao.services.UserDao;
 import com.temzu.market.msauth.enums.UserRoles;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,22 +26,26 @@ public class UserDaoImpl implements UserDao {
   @Override
   public User save(User user) {
     String login = user.getLogin();
-    if (login.isBlank() || login.contains(" ")) {
-      throw new UserWrongLoginException(login);
-    }
+    String email = user.getEmail();
+
     if (userRepository.existsByLogin(login)) {
       throw ResourceAlreadyExistsException.byLogin(login, User.class);
     }
 
-    Role role = roleDao.findByName(UserRoles.ROLE_USER.name());
-    user.setRole(role);
+    if (userRepository.existsByEmail(email)) {
+      throw ResourceAlreadyExistsException.byEmail(email, User.class);
+    }
+
+    Role role = roleDao.findByName("ROLE_USER");
+    user.setRoles(List.of(role));
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
   @Override
   public User findByLogin(String login) {
-    return userRepository.findByLogin(login)
+    return userRepository
+        .findByLogin(login)
         .orElseThrow(() -> ResourceNotFoundException.byLogin(login, User.class));
   }
 
@@ -49,6 +53,7 @@ public class UserDaoImpl implements UserDao {
   public User findByLoginAndPassword(String login, String password) {
     return Optional.of(findByLogin(login))
         .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-        .orElseThrow(UserWrongPasswordException::new);
+        .orElseThrow(UserLoginOrPasswordException::new);
   }
 }
+

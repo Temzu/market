@@ -29,10 +29,10 @@ class OrderServiceImplTest {
       "Token_4,  4"
   })
   @ParameterizedTest
-  void findPageByCurrentUserToken(String token, Long userId) {
-    Mockito.when(tokenService.getUserId(token)).thenReturn(userId);
+  void findPageByCurrentUserToken(Long token, Long userId) {
+//    Mockito.when(tokenService.getUserId(token)).thenReturn(userId);
 
-    Page<OrderDto> page = orderService.findPageByCurrentUserToken(token, 1, 3);
+    Page<OrderDto> page = orderService.findPageByUserId(token, 1, 3);
     assertTrue(page.getTotalElements() > 0);
     assertTrue(page.getTotalPages() > 0);
     assertTrue(page.getNumberOfElements() > 0);

@@ -1,15 +1,17 @@
 package com.temzu.market.msorder.services;
 
-import com.temzu.market.routinglib.dtos.CartDto;
-import java.util.UUID;
+import com.temzu.market.msorder.util.Cart;
 
 public interface CartService {
 
-  CartDto findCartByUuid(UUID cartUuid);
+  String generateCartUuid();
 
-  UUID createCartForUser(String token);
+  Cart getCurrentCart(String cartKey);
 
-  void addToCart(UUID cartUuid, Long productId);
+  void addToCart(String cartKey, Long productId);
 
-  void clearCart(UUID cartUuid);
+  void clearCart(String cartKey);
+
+  void decrementQuantity(String cartKey, Long productId);
+
 }

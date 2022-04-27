@@ -15,7 +15,8 @@ public class RoleDaoImpl implements RoleDao {
 
   @Override
   public Role findByName(String name) {
-    return roleRepository.findByName(name)
+    return roleRepository
+        .findByName(name)
         .orElseThrow(() -> ResourceNotFoundException.byName(name, Role.class));
   }
 }

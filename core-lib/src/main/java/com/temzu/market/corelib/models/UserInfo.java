@@ -1,5 +1,6 @@
 package com.temzu.market.corelib.models;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class UserInfo {
 
   private Long userId;
+  private String userLogin;
   private String userEmail;
-  private String role;
+  private List<String> roles;
 }
