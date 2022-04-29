@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:12.9
+    domainname: postgres
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-U", "postgres"]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  flyway:
+    image: boxfuse/flyway
+    command: -url=jdbc:postgresql://postgres:5432/postgres -schemas=public -user=postgres -password=12345 -connectRetries=60 migrate
+    volumes:
+      - ./flyway:/flyway/sql
+    depends_on:
+      - postgres
+
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - "6379:6379"
+
+  eureka-server:
+    image: market/eureka-server
+    hostname: eureka-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - postgres
+      - flyway
+
+  gateway-server:
+    image: market/gateway-server
+    hostname: gateway-server
+    ports:
+      - "5555:5555"
+    depends_on:
+      - eureka-server
+      - postgres
+      - flyway
+    links:
+      - eureka-server
+
+  ms-product:
+    image: market/ms-product
+    hostname: ms-product
+    ports:
+      - "8070:8070"
+    depends_on:
+      - eureka-server
+      - postgres
+      - flyway
+      - redis
+
+#  ms-auth:
+#    image: market/ms-auth
+#    hostname: ms-auth
+#    depends_on:
+#      - eureka-server
+#      - postgres
+#      - flyway
+#      - redis
+
+  ms-order:
+    image: market/ms-order
+    hostname: ms-order
+    ports:
+      - "8000"
+    depends_on:
+      - eureka-server
+      - postgres
+      - flyway
+      - redis
+
+  front-server:
+    image: market/front-server
+    hostname: front-server
+    ports:
+      - "80:80"
+    depends_on:
+      - eureka-server
+      - postgres
+      - flyway
+      - redis
+

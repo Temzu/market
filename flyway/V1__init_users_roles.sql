@@ -35,3 +35,4 @@ values ('user', '$2a$12$L/aHEr7LfXA6hFQzUI5o/O7ph1jj1gZXXmUwsu3LVkm7KM77WStne', 
 insert into users_roles (user_id, role_id)
 values (1, 1),
        (2, 2);
+
