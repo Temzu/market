@@ -1,12 +1,14 @@
-version: '3'
+version: '3.7'
 
 services:
 
   postgres:
-    image: postgres:12.9
+    image: postgres:12.10
     domainname: postgres
     ports:
       - "5433:5432"
+    networks:
+      - redis-microservices-network
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
@@ -18,20 +20,30 @@ services:
 
   flyway:
     image: boxfuse/flyway
+    networks:
+      - redis-microservices-network
     command: -url=jdbc:postgresql://postgres:5432/postgres -schemas=public -user=postgres -password=12345 -connectRetries=60 migrate
     volumes:
       - ./flyway:/flyway/sql
     depends_on:
       - postgres
 
-  redis:
-    image: "redis:alpine"
-    hostname: redis
+  redis-server:
+    image: "redis:7.0.0"
+    networks:
+      - redis-microservices-network
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    hostname: redis-server
     ports:
       - "6379:6379"
 
   eureka-server:
     image: market/eureka-server
+    networks:
+      - redis-microservices-network
     hostname: eureka-server
     ports:
       - "8761:8761"
@@ -41,55 +53,100 @@ services:
 
   gateway-server:
     image: market/gateway-server
+    networks:
+      - redis-microservices-network
     hostname: gateway-server
     ports:
       - "5555:5555"
+    links:
+      - eureka-server
     depends_on:
       - eureka-server
       - postgres
       - flyway
-    links:
-      - eureka-server
+    environment:
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
 
   ms-product:
     image: market/ms-product
+    networks:
+      - redis-microservices-network
     hostname: ms-product
     ports:
-      - "8070:8070"
+      - "8086:8086"
+    links:
+      - eureka-server
     depends_on:
       - eureka-server
+      - gateway-server
       - postgres
       - flyway
-      - redis
+      - redis-server
+    environment:
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
 
-#  ms-auth:
-#    image: market/ms-auth
-#    hostname: ms-auth
-#    depends_on:
-#      - eureka-server
-#      - postgres
-#      - flyway
-#      - redis
+  ms-auth:
+    image: market/ms-auth
+    networks:
+      - redis-microservices-network
+    hostname: ms-auth
+    ports:
+      - "8087:8087"
+    links:
+      - eureka-server
+    depends_on:
+      - eureka-server
+      - gateway-server
+      - postgres
+      - flyway
+      - redis-server
+    environment:
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
 
   ms-order:
     image: market/ms-order
+    networks:
+      - redis-microservices-network
     hostname: ms-order
     ports:
-      - "8000"
+      - "8085:8085"
+    links:
+      - eureka-server
+      - redis-server
+      - postgres
     depends_on:
       - eureka-server
+      - gateway-server
       - postgres
       - flyway
-      - redis
+      - redis-server
+    environment:
+      - REDIS_HOST=redis-server
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
 
   front-server:
     image: market/front-server
+    networks:
+      - redis-microservices-network
     hostname: front-server
     ports:
       - "80:80"
     depends_on:
       - eureka-server
+      - gateway-server
+      - ms-auth
+      - ms-product
+      - ms-order
       - postgres
       - flyway
-      - redis
+      - redis-server
 
+networks:
+  redis-microservices-network:
+    driver: bridge
