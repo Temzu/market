@@ -4,9 +4,6 @@ server:
 spring:
   application:
     name: ms-order
-  redis:
-    host: redis-server
-    port: 6379
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://postgres:5432/postgres

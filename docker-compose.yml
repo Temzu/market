@@ -5,10 +5,11 @@ services:
   postgres:
     image: postgres:12.10
     domainname: postgres
-    ports:
-      - "5433:5432"
+    container_name: postgres
     networks:
       - redis-microservices-network
+    ports:
+      - "5433:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=12345
@@ -20,6 +21,7 @@ services:
 
   flyway:
     image: boxfuse/flyway
+    container_name: flyway
     networks:
       - redis-microservices-network
     command: -url=jdbc:postgresql://postgres:5432/postgres -schemas=public -user=postgres -password=12345 -connectRetries=60 migrate
@@ -28,23 +30,25 @@ services:
     depends_on:
       - postgres
 
-  redis-server:
-    image: "redis:7.0.0"
+  cache:
+    image: redis:6.2-alpine
+    container_name: cache
     networks:
       - redis-microservices-network
-    environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
-      - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
-    hostname: redis-server
+    restart: always
     ports:
-      - "6379:6379"
+      - "6379"
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+
 
   eureka-server:
     image: market/eureka-server
+    hostname: eureka-server
+    container_name: eureka-server
     networks:
       - redis-microservices-network
-    hostname: eureka-server
     ports:
       - "8761:8761"
     depends_on:
@@ -53,9 +57,10 @@ services:
 
   gateway-server:
     image: market/gateway-server
+    hostname: gateway-server
+    container_name: gateway-server
     networks:
       - redis-microservices-network
-    hostname: gateway-server
     ports:
       - "5555:5555"
     links:
@@ -70,71 +75,77 @@ services:
 
   ms-product:
     image: market/ms-product
+    hostname: ms-product
+    container_name: ms-product
     networks:
       - redis-microservices-network
-    hostname: ms-product
     ports:
       - "8086:8086"
     links:
       - eureka-server
+      - postgres
     depends_on:
       - eureka-server
       - gateway-server
       - postgres
       - flyway
-      - redis-server
+      - cache
     environment:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
 
   ms-auth:
     image: market/ms-auth
+    hostname: ms-auth
+    container_name: ms-auth
     networks:
       - redis-microservices-network
-    hostname: ms-auth
     ports:
       - "8087:8087"
     links:
       - eureka-server
+      - postgres
     depends_on:
       - eureka-server
       - gateway-server
       - postgres
       - flyway
-      - redis-server
+      - cache
     environment:
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
 
   ms-order:
     image: market/ms-order
+    hostname: ms-order
+    container_name: ms-order
     networks:
       - redis-microservices-network
-    hostname: ms-order
     ports:
       - "8085:8085"
     links:
       - eureka-server
-      - redis-server
       - postgres
+      - cache
     depends_on:
       - eureka-server
       - gateway-server
       - postgres
       - flyway
-      - redis-server
+      - cache
     environment:
-      - REDIS_HOST=redis-server
-      - REDIS_PORT=6379
-      - REDIS_PASSWORD=
-      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
 
   front-server:
     image: market/front-server
+    hostname: front-server
+    container_name: front-server
     networks:
       - redis-microservices-network
-    hostname: front-server
     ports:
       - "80:80"
     depends_on:
@@ -145,7 +156,11 @@ services:
       - ms-order
       - postgres
       - flyway
-      - redis-server
+      - cache
+
+volumes:
+  cache:
+    driver: local
 
 networks:
   redis-microservices-network:

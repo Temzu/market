@@ -1,8 +1,10 @@
 package com.temzu.market.corelib.configs;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -13,9 +15,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableRedisRepositories
 public class RedisConfiguration {
 
+  @Value("${redis.secret}")
+  private String REDIS_SECRET;
+
   @Bean
   public RedisConnectionFactory jedisConnectionFactory() {
-    return new JedisConnectionFactory();
+    RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("cache", 6379);
+    config.setPassword(REDIS_SECRET);
+    return new JedisConnectionFactory(config);
   }
 
   @Bean
