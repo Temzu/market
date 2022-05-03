@@ -1,4 +1,4 @@
-## Market-microservices
+# Market-microservices
 
 ## How to run?
 
@@ -14,7 +14,10 @@
 
 `market$ docker-compose up -d`
 
-### Project Goals:
+### When all microservices are started, go to the browser and use the path:
+  `http://localhost/index.html`
+
+## Project Goals:
 - Using the microservice architecture
 - Сreate microservices: product, order, authentification
 - Using Spring Cloud
