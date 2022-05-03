@@ -35,6 +35,9 @@
 - Lombok
 - Docker
 
+## Screenshot of the catalog page
+![image](https://user-images.githubusercontent.com/51756264/166443339-82b87680-293c-4cab-ab24-6f6bdb6ae27d.png)
 
-#### Screenshot of the architecrure
+
+## Screenshot of the architecrure
 ![image](https://user-images.githubusercontent.com/51756264/120798356-e9271500-c545-11eb-98f2-7f184b1759c9.png)
