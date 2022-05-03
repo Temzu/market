@@ -6,7 +6,7 @@
 
 `market$ mvn -DskipTests clean package`
 
-### Start infrastructure modules in docker:
+### Build infrastructure modules in docker:
 
 `market$ ./build-docker-image.sh`
 
