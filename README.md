@@ -1,10 +1,25 @@
-## Project: Market
-### Goals:
+## Market-microservices
+
+## How to run?
+
+### Build all modules:
+
+`market$ mvn -DskipTests clean package`
+
+### Start infrastructure modules in docker:
+
+`market$ ./build-docker-image.sh`
+
+### Start all microservices:
+
+`market$ docker-compose up -d`
+
+### Project Goals:
 - Using the microservice architecture
 - Сreate microservices: product, order, authentification
 - Using Spring Cloud
-- Storing JWT in Redis
-- Make simple frontend on Angular
+- Storing JWT tokens and Carts in Redis
+- Make simple frontend on AngularJS
 
 ## Features
 - Java
@@ -15,6 +30,7 @@
 - Spring Cloud (Discovery server Netflix Eureka + OpenFeign + Gateway)
 - Flyway + H2
 - Lombok
+- Docker
 
 
 #### Screenshot of the architecrure
