@@ -1,20 +1,24 @@
 package com.temzu.market.corelib.services.impl;
 
 import com.temzu.market.corelib.models.UserInfo;
+import com.temzu.market.corelib.services.RedisService;
 import com.temzu.market.corelib.services.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
 @PropertySource("classpath:secret.properties")
+@RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
 
   @Value("${jwt.secret}")
@@ -23,6 +27,8 @@ public class TokenServiceImpl implements TokenService {
   @Value("${jwt.lifetime}")
   private Integer JWT_TTL;
 
+  private final RedisService<String> redisService;
+
   private static final String USERID_CLAIM = "id";
   private static final String LOGIN_CLAIM = "login";
   private static final String ROLE_CLAIM = "role";
@@ -30,17 +36,26 @@ public class TokenServiceImpl implements TokenService {
 
   @Override
   public String generateToken(UserInfo user) {
-    Instant expirationTime = Instant.now().plusSeconds(JWT_TTL);
+    Instant start = Instant.now();
+    Instant expirationTime = start.plusSeconds(JWT_TTL);
     Date expirationDate = Date.from(expirationTime);
 
-    return "Bearer " + Jwts.builder()
-        .claim(USERID_CLAIM, user.getUserId())
-        .claim(LOGIN_CLAIM, user.getUserLogin())
-        .claim(EMAIL_CLAIM, user.getUserEmail())
-        .claim(ROLE_CLAIM, user.getRoles())
-        .setExpiration(expirationDate)
-        .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-        .compact();
+    String token =
+        Jwts.builder()
+            .claim(USERID_CLAIM, user.getUserId())
+            .claim(LOGIN_CLAIM, user.getUserLogin())
+            .claim(EMAIL_CLAIM, user.getUserEmail())
+            .claim(ROLE_CLAIM, user.getRoles())
+            .setExpiration(expirationDate)
+            .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+            .compact();
+
+    redisService.setWithExpirationTime(
+        token,
+        user.getUserLogin().concat("_token"),
+        Duration.between(start, expirationTime)
+    );
+    return "Bearer " + token;
   }
 
   @Override
@@ -73,7 +88,7 @@ public class TokenServiceImpl implements TokenService {
   public Long getUserId(String token) {
     return Jwts.parser()
         .setSigningKey(JWT_SECRET)
-        .parseClaimsJws(token.replace("Bearer ", ""))
+        .parseClaimsJws(token.substring(7))
         .getBody().get(USERID_CLAIM, Long.class);
   }
 }
