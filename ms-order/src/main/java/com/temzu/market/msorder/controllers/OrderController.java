@@ -1,8 +1,10 @@
 package com.temzu.market.msorder.controllers;
 
 import com.temzu.market.msorder.services.OrderService;
+import com.temzu.market.routinglib.dtos.OrderCreateDto;
 import com.temzu.market.routinglib.dtos.OrderDto;
 import java.security.Principal;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -10,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,10 +41,9 @@ public class OrderController {
   @PostMapping("/{uuid}")
   public void createOrder(
       Principal principal,
-      @RequestParam String address,
-      @RequestParam String phone,
+      @Valid @RequestBody OrderCreateDto orderCreateDto,
       @PathVariable String uuid
   ) {
-    orderService.createOrder(Long.parseLong(principal.getName()), address, phone, uuid);
+    orderService.createOrder(Long.parseLong(principal.getName()), orderCreateDto, uuid);
   }
 }

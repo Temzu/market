@@ -9,6 +9,7 @@ import com.temzu.market.msorder.mappers.OrderMapper;
 import com.temzu.market.msorder.services.CartService;
 import com.temzu.market.msorder.services.OrderService;
 import com.temzu.market.msorder.util.Cart;
+import com.temzu.market.routinglib.dtos.OrderCreateDto;
 import com.temzu.market.routinglib.dtos.OrderDto;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -37,12 +38,12 @@ public class OrderServiceImpl implements OrderService {
 
   @Transactional
   @Override
-  public void createOrder(Long userId, String address, String phone, String uuid) {
+  public void createOrder(Long userId, OrderCreateDto orderCreateDto, String uuid) {
     Cart cart = cartService.getCurrentCart(uuid);
     Order order =
         Order.builder()
-            .phone(phone)
-            .address(address)
+            .phone(orderCreateDto.getPhone())
+            .address(orderCreateDto.getAddress())
             .userId(userId)
             .price(cart.getPrice())
             .build();
