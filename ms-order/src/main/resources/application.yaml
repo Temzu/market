@@ -23,3 +23,7 @@ eureka:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka
       fetchRegistry: true
+
+utils:
+  cart:
+    prefix: SUMMER_CART_
