@@ -1,4 +1,18 @@
-create table users
+drop table if exists users_roles;
+
+drop table if exists users;
+
+drop table if exists roles;
+
+drop table if exists order_items;
+
+drop table if exists products;
+
+drop table if exists categories;
+
+drop table if exists orders;
+
+create table  users
 (
     id         bigserial primary key,
     login      varchar(30) unique not null,

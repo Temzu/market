@@ -26,4 +26,4 @@ eureka:
 
 utils:
   cart:
-    prefix: SUMMER_CART_
+    prefix: MARKET_CART_

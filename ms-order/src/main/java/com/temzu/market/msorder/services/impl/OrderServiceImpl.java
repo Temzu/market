@@ -12,10 +12,10 @@ import com.temzu.market.msorder.util.Cart;
 import com.temzu.market.routinglib.dtos.OrderCreateDto;
 import com.temzu.market.routinglib.dtos.OrderDto;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,14 +31,17 @@ public class OrderServiceImpl implements OrderService {
 
   private final OrderMapper orderMapper;
 
+  @Transactional(readOnly = true)
   @Override
   public Page<OrderDto> findPageByUserId(Long id, int page, int pageSize) {
-    return orderDao.findPageByUserId(id, page, pageSize).map(orderMapper::toOrderDto);
+    return orderDao
+        .findPageByUserId(id, page, pageSize)
+        .map(orderMapper::toOrderDto);
   }
 
   @Transactional
   @Override
-  public void createOrder(Long userId, OrderCreateDto orderCreateDto, String uuid) {
+  public void createOrder(Long userId, OrderCreateDto orderCreateDto) {
     Cart cart = cartService.getCurrentCart(
         cartService.getCartUuidFromSuffix(String.valueOf(userId)));
     Order order =

@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS orders CASCADE;
+DROP TABLE IF EXISTS order_items CASCADE;
+
 create table orders
 (
     id         bigserial primary key,
@@ -22,7 +25,7 @@ create table order_items
 );
 
 insert into orders (price, user_id, address, phone) values
-    (28, 1, '111', '222');
+    (28, 1, '111', '89048882233');
 
 insert into order_items (price, price_per_product, product_id, order_id, quantity) values
     (28, 28, 2, 1, 1);

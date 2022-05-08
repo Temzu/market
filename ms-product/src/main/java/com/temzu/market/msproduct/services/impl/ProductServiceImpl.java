@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 @Service
@@ -41,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
     return productMapper.toProductDto(productDao.findById(id));
   }
 
+  @Transactional
   @Override
   public ProductDto save(ProductCreateDto productCreateDto) {
     Product createdProd = productMapper.toProduct(productCreateDto);
@@ -48,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
     return productMapper.toProductDto(productDao.saveOrUpdate(createdProd));
   }
 
+  @Transactional
   @Override
   public ProductDto update(ProductUpdateDto productUpdateDto) {
     if (!productDao.existById(productUpdateDto.getId())) {
@@ -58,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
     return productMapper.toProductDto(productDao.saveOrUpdate(updatedProd));
   }
 
+  @Transactional
   @Override
   public void deleteById(Long id) {
     productDao.deleteById(id);

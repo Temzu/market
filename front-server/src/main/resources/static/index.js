@@ -79,19 +79,19 @@ angular.module('market-front').controller('indexController',
           alert(response.data.messages);
         });
 
-        // $http.post(contextPath + '/api/v1/cart')
-        // .then(function successCallback(response) {
-        //   $localStorage.happyCartUuid = response.data;
-        // });
+        $http.post(contextPath + '/api/v1/cart')
+        .then(function successCallback(response) {
+          $localStorage.happyCartUuid = response.data;
+        });
       };
 
       $scope.tryToLogout = function () {
         $scope.clearUser();
 
-        // $http.post(contextPath + '/api/v1/cart')
-        // .then(function successCallback(response) {
-        //   $localStorage.happyCartUuid = response.data;
-        // });
+        $http.post(contextPath + '/api/v1/cart')
+        .then(function successCallback(response) {
+          $localStorage.happyCartUuid = response.data;
+        });
 
         $location.path('/');
         if ($scope.user.login) {
@@ -103,6 +103,14 @@ angular.module('market-front').controller('indexController',
       };
 
       $scope.clearUser = function () {
+
+        $http.post(contextPath + '/api/v1/auth/logout')
+        .then(function successCallback(response) {
+          //--//
+        },function errorCallback(response) {
+          alert(response.data.messages);
+        });
+
         delete $localStorage.currentUser;
         $http.defaults.headers.common.Authorization = '';
       };

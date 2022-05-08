@@ -35,7 +35,7 @@ public class TokenServiceImpl implements TokenService {
   private static final String EMAIL_CLAIM = "email";
 
   @Override
-  public String generateToken(UserInfo user) {
+  public String generateTokenWithExpirationTime(UserInfo user) {
     Instant start = Instant.now();
     Instant expirationTime = start.plusSeconds(JWT_TTL);
     Date expirationDate = Date.from(expirationTime);
@@ -55,7 +55,12 @@ public class TokenServiceImpl implements TokenService {
         user.getUserLogin().concat("_token"),
         Duration.between(start, expirationTime)
     );
-    return "Bearer " + token;
+    return token;
+  }
+
+  @Override
+  public void expireToken(String token) {
+    redisService.expire(token.substring(7));
   }
 
   @Override

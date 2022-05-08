@@ -8,6 +8,6 @@ public interface OrderService {
 
   Page<OrderDto> findPageByUserId(Long id, int page, int pageSize);
 
-  void createOrder(Long userId, OrderCreateDto orderCreateDto, String uuid);
+  void createOrder(Long userId, OrderCreateDto orderCreateDto);
 
 }

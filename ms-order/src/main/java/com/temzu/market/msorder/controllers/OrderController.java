@@ -4,6 +4,7 @@ import com.temzu.market.msorder.services.OrderService;
 import com.temzu.market.routinglib.dtos.OrderCreateDto;
 import com.temzu.market.routinglib.dtos.OrderDto;
 import java.security.Principal;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,12 +39,8 @@ public class OrderController {
     return orderService.findPageByUserId(Long.parseLong(principal.getName()), page, pageSize);
   }
 
-  @PostMapping("/{uuid}")
-  public void createOrder(
-      Principal principal,
-      @Valid @RequestBody OrderCreateDto orderCreateDto,
-      @PathVariable String uuid
-  ) {
-    orderService.createOrder(Long.parseLong(principal.getName()), orderCreateDto, uuid);
+  @PostMapping
+  public void createOrder(Principal principal, @Valid @RequestBody OrderCreateDto orderCreateDto) {
+    orderService.createOrder(Long.parseLong(principal.getName()), orderCreateDto);
   }
 }
