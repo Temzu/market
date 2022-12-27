@@ -1,9 +1,11 @@
 create table categories
 (
-    id         bigserial primary key,
-    title      varchar(255) not null,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp
+    id            bigserial primary key,
+    title         varchar(255) not null,
+    image_name    varchar(255),
+    active_status boolean default true,
+    created_at    timestamp default current_timestamp,
+    updated_at    timestamp default current_timestamp
 );
 
 insert into categories (title)
@@ -12,8 +14,11 @@ values ('Food');
 create table products
 (
     id          bigserial primary key,
-    title       varchar(255) not null,
+    title       varchar(255)  not null,
     price       numeric(8, 2) not null,
+    description varchar(255),
+    image_name  varchar(255),
+    active_status boolean default true,
     category_id bigint references categories (id),
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp

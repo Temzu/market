@@ -23,6 +23,7 @@ public class RedisConfiguration {
   public RedisConnectionFactory jedisConnectionFactory() {
     RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("cache", 6379);
     config.setPassword(REDIS_SECRET);
+
     return new JedisConnectionFactory(config);
   }
 

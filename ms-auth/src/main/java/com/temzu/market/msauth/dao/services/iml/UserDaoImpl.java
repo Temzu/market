@@ -36,8 +36,11 @@ public class UserDaoImpl implements UserDao {
       throw ResourceAlreadyExistsException.byEmail(email, User.class);
     }
 
-    Role role = roleDao.findByName("ROLE_USER");
-    user.setRoles(List.of(role));
+    if (user.getRoles().isEmpty()) {
+      Role role = roleDao.findByName("ROLE_USER");
+      user.setRoles(List.of(role));
+    }
+
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
