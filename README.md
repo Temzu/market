@@ -14,7 +14,7 @@
 
 `market$ docker-compose up -d`
 
-### When all microservices are started, go to the browser and use the path:
+### When all microservices have been started, go to a browser and use this path:
   `http://localhost/index.html`
 
 ## Project Goals:
